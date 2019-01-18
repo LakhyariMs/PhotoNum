@@ -73,6 +73,25 @@ public class FichierImage {
 		this.estPartage = estPartage;
 	}
 	
+	// Photos  --------------------------------------------------------------
+
+	public void addPhoto(Photo photo) {
+		this.photos.add(photo);
+	}
+	
+	public boolean removePhoto(Photo photo ) {
+		if(this.photos.remove(photo))
+			return true ;
+		return false;
+	}
+	
+	public ArrayList<Photo> getAllPhoto(){
+		return this.photos;
+	}
+	
+	public void setPhotos(ArrayList<Photo> photos) {
+		this.photos = photos;
+	}
 	
 
 }
