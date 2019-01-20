@@ -1,4 +1,7 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# Created by https://www.gitignore.io/api/java,eclipse
+# Edit at https://www.gitignore.io/?templates=java,eclipse
+
 ### Eclipse ###
 
 .metadata
@@ -9,8 +12,6 @@ tmp/
 *.swp
 *~.nib
 local.properties
-.project
-.classpath
 .settings/
 .loadpath
 .recommenders
@@ -95,14 +96,5 @@ local.properties
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-
-# IDEs and editors
-/.idea
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
 
 # End of https://www.gitignore.io/api/java,eclipse
