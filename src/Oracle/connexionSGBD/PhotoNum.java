@@ -4,6 +4,7 @@ import java.util.List;
 
 import Oracle.crudSGBD.Consulter;
 import PhotoNum.fichiers.FichierImage;
+import PhotoNum.fichiers.Photo;
 import PhotoNum.user.Admin;
 import PhotoNum.user.Client;
 
@@ -17,7 +18,7 @@ public class PhotoNum {
 		System.out.println("------------- les Clients ----------------");
 		
 		Client client = null ;
-		client = consulter.getClient("pgeere0@bing.com");
+		client = consulter.getClient("jbaudry1@twitpic.com");
 		System.out.println(client.getNom()+" "+client.getPrenom()+" "+client.getAdresse(1).toString()+" => "+client.getEmail());
 		
 		Admin admin = null ;
@@ -27,10 +28,13 @@ public class PhotoNum {
 		}else{
 			System.out.println("Vide");
 		}
-		
-		List<FichierImage> fichiers = consulter.getClientFichierImage("pgeere0@bing.com");
+	 // ------------ Test Fichier Image	
+		List<FichierImage> fichiers = consulter.getClientFichierImage("jbaudry1@twitpic.com");
 		for(FichierImage file : fichiers) {
 			System.out.println(file.getChemin()+" "+file.getResolution()+" "+file.getInformation()+" => "+file.getEmailClient());
+				for(Photo photo : file.getAllPhoto()) {
+					System.out.println(photo.toString());
+				}
 		}
 
 		
