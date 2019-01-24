@@ -20,6 +20,11 @@ public class Photo {
 		return id;
 	}
 
+	@Override
+	public String toString() {
+		return "Photo [id=" + id + ", parametre=" + parametre + ", informations=" + informations + "]";
+	}
+
 	public String getParametre() {
 		return parametre;
 	}

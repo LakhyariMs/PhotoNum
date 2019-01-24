@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import PhotoNum.adresse.AdressePerso;
 import PhotoNum.fichiers.FichierImage;
+import PhotoNum.fichiers.Photo;
 import PhotoNum.user.Admin;
 import PhotoNum.user.Client;
 
@@ -129,11 +130,24 @@ public class Consulter {
 	 */
 	public ArrayList<FichierImage> getClientFichierImage(String email){
 		ArrayList<FichierImage> fichiers = new ArrayList<FichierImage>();
+		ArrayList<Photo> photos = new ArrayList<Photo>();
 		String query = "SELECT * FROM fichierImage WHERE email = '"+email+"'";
 		ResultSet rs = this.connexion.selectQuery(query);
+		ResultSet rs2 ;
 		try {
 			while(rs.next()) {
 				FichierImage fichier =new FichierImage(rs.getInt(1), rs.getString(2), rs.getString(3) , rs.getString(4), rs.getInt(5), rs.getString(6));
+				
+				rs2 = this.connexion.selectQuery("SELECT * FROM photo WHERE idfichier="+rs.getInt(1));
+				while (rs2.next()) {
+					Photo photo = new Photo(rs2.getInt(1), rs2.getString(2), rs2.getString(3));
+					photos.add(photo);
+				}
+				fichier.setPhotos(photos);
+				// pour réinitialiser la variable 
+				photos = new ArrayList<Photo>();
+				
+	
 				fichiers.add(fichier);
 			}
 		}catch (SQLException e) {
