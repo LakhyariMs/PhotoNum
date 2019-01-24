@@ -1,7 +1,8 @@
 package Oracle.connexionSGBD;
 
-import java.sql.Connection;
+import java.sql.*;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ConnexionSGBD {
@@ -19,12 +20,21 @@ public class ConnexionSGBD {
 	            password = dap.getPassword();
 	            // Load the database driver
 	            Class.forName(jdbcDriver) ;
+	          
 	            // Get a connection to the database
 	            try (Connection conn = DriverManager.getConnection(dbUrl, username, password)) {
-	
-	            	System.out.println("connect");
-	                // Print information about connection warnings
-	                SQLWarningsExceptions.printWarnings(conn);
+	            	System.out.println("------------ Connected to the DataBase ------------");
+	            	System.out.println("Creating statement");
+	            	
+	            	Statement stmnt = (Statement) conn.createStatement();
+	            	String sql = "Select email from client";
+	            	ResultSet rs = stmnt.executeQuery(sql);
+	            	
+	            	while(rs.next()) {
+	            		String email = rs.getString("email");
+	            		System.out.println(email);
+	            	}
+	            	rs.close();
 	            }
 	        } catch( SQLException se ) {
 	            SQLWarningsExceptions.printExceptions(se);
