@@ -70,4 +70,21 @@ public class Connexion {
 		}
 	}
 	
+	
+	/**
+	 * Execute une requete insertion
+	 * @param query Requete SQL
+	 * @return True si l'insertion est effectuer , false sinon
+	 */
+	public boolean insertQuery(String query) {
+		try {
+			Statement statement = (Statement) connection.createStatement();
+			if(statement.executeUpdate(query) > 0)
+				return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 }
