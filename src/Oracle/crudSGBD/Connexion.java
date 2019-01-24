@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import Oracle.connexionSGBD.DatabaseAccessProperties;
+import Oracle.connexionSGBD.SQLWarningsExceptions;
 
 public class Connexion {
 
@@ -79,10 +80,12 @@ public class Connexion {
 	public boolean insertQuery(String query) {
 		try {
 			Statement statement = (Statement) connection.createStatement();
-			if(statement.executeUpdate(query) > 0)
+			if(statement.executeUpdate(query) > 0) {
+				statement.close();
 				return true;
+			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			SQLWarningsExceptions.printExceptions(e);
 		}
 		return false;
 	}
