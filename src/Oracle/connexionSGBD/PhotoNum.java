@@ -15,10 +15,16 @@ import PhotoNum.fichiers.Photo;
 import PhotoNum.inventaire.Inventaire;
 import PhotoNum.user.Admin;
 import PhotoNum.user.Client;
+import api.executor.UtilExecute;
 
 public class PhotoNum {
 
 	public static void main(String[] args) {
+		
+		
+		UtilExecute util = new UtilExecute();
+		
+		System.out.println(util.generateCodePromo());
 
 		Consulter consulter = new Consulter();
 
@@ -37,7 +43,7 @@ public class PhotoNum {
 		}
 
 		System.out.println("---- Commande d'un client ");
-		ArrayList<Commande> lesCommandes2 = consulter.getAllClientCommande("1@uga.com");
+		ArrayList<Commande> lesCommandes2 = consulter.getAllClientCommande("halima@uga.com");
 
 		for (Commande commande : lesCommandes2) {
 			System.out.println(commande.toString()); // La table est vide dans la base
@@ -59,11 +65,23 @@ public class PhotoNum {
 		
 		System.out.println("--------------------- Fichier Images -----------------------");
 
-		ArrayList<FichierImage> fichiers = consulter.getClientFichierImage("said@uga.com");
+		ArrayList<FichierImage> fichiers = consulter.getAllFichiersImages();
 
 		for (FichierImage adr : fichiers ) {
 			System.out.println(adr.toString()); // La table est vide dans la base
 		}
+		
+		
+		
+		
+		System.out.println("--------------------- Fichier Shared Images -----------------------");
+
+		ArrayList<FichierImage> SharedFichiers = consulter.getSharedFichierImage();
+
+		for (FichierImage adr : SharedFichiers ) {
+			System.out.println(adr.toString()); // La table est vide dans la base
+		}
+		
 		
 		
 		System.out.println("---------------------Adresse Perso-----------------------");
@@ -97,6 +115,17 @@ public class PhotoNum {
 		for (CodePromo cp : codesPromo ) {
 			System.out.println(cp.toString()); // La table est vide dans la base
 		}
+		
+		
+		System.out.println("---------------------Code -----------------------");
+
+		
+		ArrayList<CodeUtilisateur> codesPromos = consulter.getClientCodeUser("halima@uga.com");
+
+		for (CodePromo cp : codesPromos ) {
+			System.out.println(cp.toString()); // La table est vide dans la base
+		}
+
 
 		/*
 		 * System.out.println("------------- les Clients ----------------");

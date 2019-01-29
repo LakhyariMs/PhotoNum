@@ -61,13 +61,15 @@ public class Connexion {
 	 * Execute une requete de UPDATE ou DELETE 
 	 * @param query Requete SQL
 	 */
-	public void executeQuery(String query) {
+	public boolean executeQuery(String query) {
 		try {
 			Statement statement = (Statement) connection.createStatement();
-			statement.executeQuery(query);
+			if(statement.executeQuery(query) != null)
+				return true ;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return false ;
 	}
 	
 	
