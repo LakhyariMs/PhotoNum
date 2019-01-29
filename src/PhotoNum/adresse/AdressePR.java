@@ -21,4 +21,11 @@ public class AdressePR extends Adresse {
 		this.nomPR = nomPR;
 	}
 
+	@Override
+	public String toString() {
+		return "[ libelle = "+ super.getLibelle() + " ,nomPR = " + nomPR + "]";
+	}
+	
+	
+
 }

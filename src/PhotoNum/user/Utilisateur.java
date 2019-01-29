@@ -18,6 +18,10 @@ public class Utilisateur {
 	
 	// Setters & Getters --------------------------------------------------------------
 	
+	public Utilisateur() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -46,4 +50,12 @@ public class Utilisateur {
 	public void setMdp(String mdp) {
 		this.mdp = mdp;
 	}
+
+	@Override
+	public String toString() {
+		return "Utilisateur [email=" + email + ", nom=" + nom + ", prenom=" + prenom + "";
+	}
+	
+	
+	
 }

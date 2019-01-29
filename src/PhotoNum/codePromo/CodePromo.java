@@ -37,6 +37,14 @@ public class CodePromo {
 	public void setEstUtilisee(boolean estUtilisee) {
 		this.estUtilisee = estUtilisee;
 	}
+
+	@Override
+	public String toString() {
+		return "CodePromo [id=" + id + ", code=" + code + ", pourcentage=" + pourcentage + ", estUtilisee="
+				+ estUtilisee + "]";
+	}
+	
+	
 	
 
 	

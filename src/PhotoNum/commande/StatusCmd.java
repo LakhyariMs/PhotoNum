@@ -1,5 +1,8 @@
 package PhotoNum.commande;
 
 public enum StatusCmd {
-	EnCours , Annulee ,EnAttente , Validee
+	
+	EnCours , Annulee ,EnAttente , Validee , PretAEnvoyer
+	
+	
 }

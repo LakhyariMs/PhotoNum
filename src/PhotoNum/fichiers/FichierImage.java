@@ -103,6 +103,14 @@ public class FichierImage {
 	public void setPhotos(ArrayList<Photo> photos) {
 		this.photos = photos;
 	}
+
+	@Override
+	public String toString() {
+		return "FichierImage [id=" + id + ", chemin=" + chemin + ", information=" + information + ", resolution="
+				+ resolution + ", emailClient=" + emailClient + ", photos=" + photos + ", estPartage=" + estPartage
+				+ "]";
+	}
+	
 	
 
 }

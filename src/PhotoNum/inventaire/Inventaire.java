@@ -2,13 +2,13 @@ package PhotoNum.inventaire;
 
 public class Inventaire {
 
-	private ReferenceInventaire reference;
+	private String reference; // j'enleve l'enumeration temporairement pour tester 
 	private int qte;
 	private float prixDeVente;
 	
 	// Constructeur --------------------------------------------------------------
 
-	public Inventaire(ReferenceInventaire reference , int qte , float prixVente ) {
+	public Inventaire(String reference , int qte , float prixVente ) {
 		this.reference = reference;
 		this.qte = qte ;
 		this.prixDeVente = prixVente ;
@@ -16,13 +16,14 @@ public class Inventaire {
 
 	// Setters & Getters --------------------------------------------------------------
 	
-	public ReferenceInventaire getReference() {
+	public String getReference() {
 		return reference;
 	}
 
-	public void setReference(ReferenceInventaire reference) {
+	public void setReference(String reference) {
 		this.reference = reference;
 	}
+
 
 	public int getQte() {
 		return qte;
@@ -40,6 +41,10 @@ public class Inventaire {
 		this.prixDeVente = prixDeVente;
 	}
 	
+	@Override
+	public String toString() {
+		return "Inventaire [reference=" + reference + ", qte=" + qte + ", prixDeVente=" + prixDeVente + "]";
+	}
 
 	
 	

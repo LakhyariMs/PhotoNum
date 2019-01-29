@@ -2,6 +2,8 @@ package PhotoNum.adresse;
 
 public class Adresse {
 	
+
+
 	private int id ;
 	private String libelle ;
 	
@@ -28,6 +30,11 @@ public class Adresse {
 
 	public void setLibelle(String libelle) {
 		this.libelle = libelle;
+	}
+	
+	@Override
+	public String toString() {
+		return "Adresse [libelle=" + libelle + "]";
 	}
 	
 	
