@@ -23,7 +23,7 @@ public class Menu {
 			this.isRootMenu = true; 
 			this.setTitle("Menu");
 
-			this.exitItem = new MenuItem("Sortie"); 
+			this.exitItem = new MenuItem("Quitter"); 
 		} else {
 			this.setTitle("Sous Menu");
 			this.exitItem = new MenuItem("Retour");
