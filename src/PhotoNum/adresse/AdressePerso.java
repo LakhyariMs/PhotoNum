@@ -6,4 +6,11 @@ public class AdressePerso extends Adresse {
 		super(id, libelle);
 	}
 
+	@Override
+	public String toString() {
+		return "AdressePerso [Libelle = " + getLibelle() + "]";
+	}
+	
+	
+
 }

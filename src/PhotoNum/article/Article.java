@@ -28,6 +28,13 @@ public class Article {
 	public float getPrix() {
 		return prix;
 	}
+
+	@Override
+	public String toString() {
+		return "Article [id=" + id + ", qte=" + qte + ", prix=" + prix + "]";
+	}
+	
+	
 	
 
 }

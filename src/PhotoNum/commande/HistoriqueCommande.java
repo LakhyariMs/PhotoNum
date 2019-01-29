@@ -1,13 +1,16 @@
 package PhotoNum.commande;
 
+import java.sql.Date;
+
 public class HistoriqueCommande extends Commande {
 
-	public HistoriqueCommande(int id, String date, ModeLivraison modeLiv, float prix, boolean paye) {
-		super(id, date, modeLiv, prix, null, paye);
+	public HistoriqueCommande(int id, Date date, String modeLiv, float prix, int paye , String mail) {
+		// Normalement chaque commande stockee dans la table historique est deja validé (envoyé) un trigger doit s'occuper de ca 
+		super(id, date, modeLiv, prix, "Envoyée", paye,mail);
 	}
-	
+/*	
 	public HistoriqueCommande(Commande cmd ) {
-		super(cmd.getId(),cmd.getDate(), cmd.getModeLivraison(), cmd.getPrixTotale(), null, cmd.estPaye());
+		super(cmd.getId(),cmd.getDate(), cmd.getModeLivraison(), cmd.getPrixTotale(),null, cmd.estPaye());
 	}
-
+*/
 }

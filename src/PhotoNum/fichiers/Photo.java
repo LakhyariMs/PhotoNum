@@ -41,6 +41,7 @@ public class Photo {
 		this.informations = informations;
 	}
 	
+	
 
 	
 }
