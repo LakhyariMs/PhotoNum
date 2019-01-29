@@ -3,6 +3,7 @@ package Oracle.connexionSGBD;
 import java.util.List;
 
 import Oracle.crudSGBD.Consulter;
+import Oracle.crudSGBD.Inserer;
 import PhotoNum.fichiers.FichierImage;
 import PhotoNum.fichiers.Photo;
 import PhotoNum.user.Admin;
@@ -14,7 +15,11 @@ public class PhotoNum {
 
 		
 		Consulter consulter = new Consulter();
+		Inserer inserer = new Inserer();
+		System.out.println("------------- Insertion ----------------");
 		
+		inserer.inscriptionClient("jbaudry1@twitpic.com", "baudry", "j", "deidje21");
+		/*
 		System.out.println("------------- les Clients ----------------");
 		
 		Client client = null ;
@@ -35,7 +40,7 @@ public class PhotoNum {
 				for(Photo photo : file.getAllPhoto()) {
 					System.out.println(photo.toString());
 				}
-		}
+		} */
 
 		
 /*		List<Client> listclient = consulter.getAllClients();
