@@ -12,7 +12,6 @@ import models.codePromo.CodePromo;
 import models.codePromo.CodeUtilisateur;
 import models.commande.Commande;
 import models.commande.HistoriqueCommande;
-import models.commande.ModeLivraison;
 import models.fichiers.FichierImage;
 import models.fichiers.Photo;
 import models.inventaire.Inventaire;
@@ -72,12 +71,12 @@ public class Consulter {
 	}
 
 	/**
-	 * Liste les infromations d'un client
+	 * Liste les informations d'un client
 	 * 
 	 * @param email email de l'utilisateur (email est unique)
 	 * @return
 	 */
-	// il manque d'ajouter les adresses et les commandes
+	// il manque d'ajouter les adresses
 	public Client getClient(String email) {
 		Client client = null;
 		String query = "SELECT c.email,nom,prenom,mdp,a.adresse FROM client c , adresseperso a WHERE c.email ='" + email
@@ -173,6 +172,32 @@ public class Consulter {
 			e.printStackTrace();
 		}
 		return fichiers;
+	}
+	
+	/**
+	 * Recupere les fichiers Images d'un client
+	 * 
+	 * @param email email (indetifiant) client
+	 * @return Liste Photos
+	 */
+	public ArrayList<Photo> getPhotosClient(String email) {
+		ArrayList<Photo> photos = new ArrayList<Photo>();
+		String query = "SELECT * FROM fichierImage WHERE email = '" + email + "'";
+		ResultSet rs = this.connexion.selectQuery(query);
+		ResultSet rs2;
+		try {
+			while (rs.next()) {
+				rs2 = this.connexion.selectQuery("SELECT * FROM photo WHERE idfichier=" + rs.getInt(1));
+				while (rs2.next()) {
+					Photo photo = new Photo(rs2.getInt(1), rs2.getString(2), rs2.getString(3));
+					photos.add(photo);
+				}
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return photos;
 	}
 	
 	

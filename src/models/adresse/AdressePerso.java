@@ -8,7 +8,7 @@ public class AdressePerso extends Adresse {
 
 	@Override
 	public String toString() {
-		return "AdressePerso [Libelle = " + getLibelle() + "]";
+		return "AdressePerso [id = " + getId() + " Libelle = " + getLibelle() + "]";
 	}
 	
 	

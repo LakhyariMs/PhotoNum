@@ -1,8 +1,6 @@
 package main;
 
-import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Random;
 
 import models.user.Admin;
 import models.user.Client;
@@ -33,15 +31,15 @@ public class UtilExecute {
 			}	
 		}
 		
-		System.out.println("Compte Erroné ! Réessayez à nouveau. ");
+		System.out.println("Compte client erroné !");
 		return null;
 	}
 	
 	/**
-	 * Verifier s il s agit d'un compte Administrateur
-	 * @param email email Admin
-	 * @param mdp mdp Amdin
-	 * @return Objet Admin sino null 
+	 * Verifier s'il s'agit d'un compte Administrateur
+	 * @param email email de l'admin
+	 * @param mdp mot de passe de l'admin
+	 * @return Objet Admin sinon null 
 	 */
 	public Admin isAdmin(String email , String mdp ) {
 		ArrayList<Admin> admins = this.consulter.getAllAdmins();
@@ -52,8 +50,7 @@ public class UtilExecute {
 				return admin ;
 			}	
 		}
-		
-		System.out.println("Compte Erroné ! Réessayez à nouveau ");
+		System.out.println("Compte admin erroné !");
 		return null;
 	}
 	

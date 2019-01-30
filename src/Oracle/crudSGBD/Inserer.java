@@ -1,12 +1,5 @@
 package oracle.crudSGBD;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import oracle.helpersSGBD.SQLWarningsExceptions;
-
 public class Inserer {
 
 	private Connexion connexion;
@@ -16,14 +9,16 @@ public class Inserer {
 	}
 
 	// partie client 
-	public void inscriptionClient(String email, String nom, String prenom, String mdp) {
+	public boolean inscriptionClient(String email, String nom, String prenom, String mdp) {
 		String requete = "INSERT INTO Client(email, nom, prenom, MDP, estactive) " + "VALUES('" + email + "', '" + nom
 				+ "', '" + prenom + "', '" + mdp + "', 1)";
 		if (this.connexion.insertQuery(requete)) {
 			System.out.println("Inscription reussie");
+			return true;
 		} else {
 			System.out.println("Echec de l'inscription");
 		}
+		return false;
 	}
 
 	public void ajouterAdresse(String newAdresse, String email) {
@@ -42,6 +37,15 @@ public class Inserer {
 			System.out.println("Fichier Image ajouté !");
 		} else {
 			System.out.println("Echec de l'ajout du fichier");
+		}
+	}
+	
+	public void updateStock(String reference, int nouvelleQte) {
+		String requete = "UPDATE INTO Inventaire SET quantite = " + nouvelleQte + "WHERE reference = '" + reference + "'";
+		if (this.connexion.insertQuery(requete)) {
+			System.out.println("Stock " + reference + " mis à jour !");
+		} else {
+			System.out.println("Echec de l'approvisionnement");
 		}
 	}
 

@@ -23,7 +23,7 @@ public class AdressePR extends Adresse {
 
 	@Override
 	public String toString() {
-		return "[ libelle = "+ super.getLibelle() + " ,nomPR = " + nomPR + "]";
+		return "[ id = " + getId() + " libelle = "+ super.getLibelle() + " ,nomPR = " + nomPR + "]";
 	}
 	
 	

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import oracle.helpersSGBD.DatabaseAccessProperties;
+import oracle.helpersSGBD.SQLWarningsExceptions;
 
 public class Connexion {
 
@@ -14,7 +15,6 @@ public class Connexion {
 	private DatabaseAccessProperties dap ;
 	private Connection connection ;
 	private String jdbcDriver,dbUrl,username,password ;
-
 	
 	public Connexion() {
 		this.init();
@@ -52,7 +52,7 @@ public class Connexion {
 			ResultSet rs = statement.executeQuery(query);
 			return rs;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			SQLWarningsExceptions.printExceptions(e);
 		}
 		return null;
 	}
@@ -65,9 +65,9 @@ public class Connexion {
 		try {
 			Statement statement = (Statement) connection.createStatement();
 			if(statement.executeQuery(query) != null)
-				return true ;
+				return true;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			SQLWarningsExceptions.printExceptions(e);
 		}
 		return false ;
 	}
@@ -84,7 +84,7 @@ public class Connexion {
 			if(statement.executeUpdate(query) > 0)
 				return true;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			SQLWarningsExceptions.printExceptions(e);
 		}
 		return false;
 	}
