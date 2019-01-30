@@ -1,4 +1,4 @@
-package Oracle.crudSGBD;
+package oracle.crudSGBD;
 
 public class Supprimer {
 

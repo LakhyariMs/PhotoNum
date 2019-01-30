@@ -1,23 +1,23 @@
-package Oracle.crudSGBD;
+package oracle.crudSGBD;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import PhotoNum.adresse.Adresse;
-import PhotoNum.adresse.AdressePR;
-import PhotoNum.adresse.AdressePerso;
-import PhotoNum.article.Article;
-import PhotoNum.codePromo.CodePromo;
-import PhotoNum.codePromo.CodeUtilisateur;
-import PhotoNum.commande.Commande;
-import PhotoNum.commande.HistoriqueCommande;
-import PhotoNum.commande.ModeLivraison;
-import PhotoNum.fichiers.FichierImage;
-import PhotoNum.fichiers.Photo;
-import PhotoNum.inventaire.Inventaire;
-import PhotoNum.user.Admin;
-import PhotoNum.user.Client;
+import models.adresse.Adresse;
+import models.adresse.AdressePR;
+import models.adresse.AdressePerso;
+import models.article.Article;
+import models.codePromo.CodePromo;
+import models.codePromo.CodeUtilisateur;
+import models.commande.Commande;
+import models.commande.HistoriqueCommande;
+import models.commande.ModeLivraison;
+import models.fichiers.FichierImage;
+import models.fichiers.Photo;
+import models.inventaire.Inventaire;
+import models.user.Admin;
+import models.user.Client;
 
 public class Consulter {
 

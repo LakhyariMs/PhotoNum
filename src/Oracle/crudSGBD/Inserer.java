@@ -1,11 +1,11 @@
-package Oracle.crudSGBD;
+package oracle.crudSGBD;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import Oracle.connexionSGBD.SQLWarningsExceptions;
+import oracle.helpersSGBD.SQLWarningsExceptions;
 
 public class Inserer {
 

@@ -1,4 +1,4 @@
-package Oracle.crudSGBD;
+package oracle.crudSGBD;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import Oracle.connexionSGBD.DatabaseAccessProperties;
+import oracle.helpersSGBD.DatabaseAccessProperties;
 
 public class Connexion {
 

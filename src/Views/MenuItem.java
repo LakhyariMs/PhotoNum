@@ -1,4 +1,4 @@
-package Views;
+package views;
 
 import java.lang.reflect.Method;
 
