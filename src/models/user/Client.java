@@ -25,12 +25,9 @@ public class Client extends Utilisateur {
 		this.adresses.add(adresse);
 	}
 	
-
-	
 	public Client() {
 		super();
 	}
-
 
 
 	//-------- constructeur avec un tableau d'adresse
@@ -149,8 +146,6 @@ public class Client extends Utilisateur {
 	public void SetFichierImage (ArrayList<FichierImage> fichiersImg) {
 		this.fichierImage = fichiersImg ;
 	}
-
-
 
 	@Override
 	public String toString() {

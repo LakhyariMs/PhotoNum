@@ -9,6 +9,7 @@ import models.user.Utilisateur;
 import oracle.crudSGBD.Consulter;
 import oracle.crudSGBD.Inserer;
 import oracle.crudSGBD.Supprimer;
+import oracle.crudSGBD.Update;
 import oracle.helpersSGBD.PrinterUtils;
 import views.ConsoleUtils;
 import views.Menu;
@@ -20,15 +21,17 @@ public class PhotoNum {
 	private UtilExecute util;
 	private Consulter consulter;
 	private Inserer inserer;
+	private Update update;
 	private Client client;
 	private Admin admin;
 	private Supprimer supprimer;
 
-	protected PhotoNum(UtilExecute util, Consulter c, Inserer i, Supprimer s) {
+	protected PhotoNum(UtilExecute util, Consulter c, Inserer i, Supprimer s, Update u) {
 		this.util = util;
 		consulter = c;
 		inserer = i;
 		supprimer = s;
+		update = u;
 	}
 
 	private void mainMenu() {
@@ -165,8 +168,8 @@ public class PhotoNum {
 
 	public void performFichiersImageModifier() {
 		System.out.println("Modification ... \n");
-		this.performFichiersImageConsulter();
-		String input = this.getInfoConsole("Id ou Path : ");
+		PrinterUtils.print(consulter.getClientFichierImage(client.getEmail()));
+		String input = this.getInfoConsole("Id : ");
 		////////////////////////
 		///////////////////////
 		ConsoleUtils.pauseExecution();
@@ -236,7 +239,7 @@ public class PhotoNum {
 	}
 
 	public void performAfficherDetailsProfil() {
-		consulter.getClient(client.getEmail()).toString();
+		System.out.println(consulter.getClient(client.getEmail()).toString());
 		System.out.println("Mes adresses : \n");
 		PrinterUtils.print(consulter.getClientAdresses(client.getEmail()));
 		ConsoleUtils.pauseExecution();
@@ -306,7 +309,7 @@ public class PhotoNum {
 		PrinterUtils.print(consulter.getAllInventaire());
 		String input = this.getInfoConsole("La référence :");
 		String input1 = this.getInfoConsole("Nouvelle Quantité");
-		inserer.updateStock(input, Integer.parseInt(input1));
+		update.updateReferenceQte(input, Integer.parseInt(input1));
 		ConsoleUtils.pauseExecution();
 	}
 
@@ -342,6 +345,6 @@ public class PhotoNum {
 
 	public static void main(String[] args) {
 
-		new PhotoNum(new UtilExecute(), new Consulter(), new Inserer(), new Supprimer()).mainMenu();
+		new PhotoNum(new UtilExecute(), new Consulter(), new Inserer(), new Supprimer(), new Update()).mainMenu();
 	}
 }

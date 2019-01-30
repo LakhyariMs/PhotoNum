@@ -17,7 +17,7 @@ public class Supprimer {
 	// Méthodes -------------------------------------------------------
 
 	public boolean deleteFichierImage(String email, String path) {
-		String query = "DELETE FROM fichierImage Where email = '" + email + "' AND chemin = '" + path + "'";
+		String query = "DELETE FROM fichierImage Where email = '" + email + "' AND id = '" + path + "'";
 		return this.connexion.executeQuery(query);
 	}
 	

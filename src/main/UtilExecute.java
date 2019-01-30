@@ -60,7 +60,6 @@ public class UtilExecute {
 	 * @return String-code promo
 	 */
 	public String generateCodePromo() {
-		
 	    String chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"; // Tu supprimes les lettres dont tu ne veux pas
 	    String pass = "";
 	    for(int x=0;x<10;x++)   { // j'ai pris par defaut la longeur du code promo = 10
@@ -68,7 +67,19 @@ public class UtilExecute {
 	       pass += chars.charAt(i);
 	    }
 	    System.out.println(pass);
-	    return pass;
+	    return pass;	    
+	}
+	
+	public int generateID() {	
+	    String chars = "1234567890"; // Tu supprimes les lettres dont tu ne veux pas
+	    String pass = "";
+	    for(int x=0;x<5;x++)   { // j'ai pris par defaut la longeur du code promo = 10
+	       int i = (int)Math.floor(Math.random() * chars.length()); // Si tu supprimes des lettres tu diminues ce nb
+	       pass += chars.charAt(i);
+	    }
+	    System.out.println(pass);
+	    
+	    return Integer.parseInt(pass);
 	    
 	}
 }
