@@ -313,6 +313,7 @@ public class PhotoNum {
 		ConsoleUtils.pauseExecution();
 	}
 
+	
 	public void performStatutCommande() {
 		System.out.println("Suppression d'une Adresse ... \n");
 		PrinterUtils.print(consulter.getClientAdresses(client.getEmail()));
