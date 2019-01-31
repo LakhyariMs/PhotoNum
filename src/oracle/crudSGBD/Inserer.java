@@ -28,7 +28,7 @@ public class Inserer {
 		return false;
 	}
 
-	public void addCommande(int id, String date, String modeLiv, double prixTot, String statut, String email,
+	public boolean addCommande(int id, String date, String modeLiv, double prixTot, String statut, String email,
 			int estPaye, int idAdr, int idCode) {
 
 		String query = "INSERT INTO Commande(idcommande,datecommande,modelivraison,prixtotal,statut,email,estpaye,idadresseperso,idcodeutilisateur)"
@@ -36,8 +36,10 @@ public class Inserer {
 				+ "' , " + estPaye + " , null , null)";
 		if (this.connexion.insertQuery(query)) {
 			System.out.println("Commande Ajoutee");
+			return true ;
 		} else {
 			System.out.println("Echec d'ajout");
+			return false ;
 		}
 
 	}
@@ -97,10 +99,12 @@ public class Inserer {
 		UtilExecute util = new UtilExecute();
 		Inserer inserer = new Inserer();
 		Consulter consulter = new Consulter();
+		Supprimer supprimer = new Supprimer();
 		int idTypeImpression = util.generateID();
 		int idArticle = util.generateID();
 		int idCatImpression = util.generateID();
 		double prixRef;
+		Scanner sc = new Scanner(System.in);
 
 		// STEP 1 : Ajouter le type d'impression
 		inserer.addTypeImpression(idTypeImpression, reference, email);
@@ -116,19 +120,45 @@ public class Inserer {
 
 		// STEP 4 : Ajouter a la table Article
 
-		inserer.addArticle(idArticle, qte, prixRef * qte, idCommande, idTypeImpression);
-
-		return prixRef * qte;
+		boolean estPossible = inserer.addArticle(idArticle, qte, prixRef*qte, idCommande, idTypeImpression);
+		
+		if(!estPossible) {
+			System.out.println("Action Impossible !");
+			supprimer.deleteCadre(idCatImpression);
+			supprimer.deleteTypeImpression(idTypeImpression);
+			return -1;
+		}
+			
+		
+		System.out.println("Votre Article : Reference : "+reference+", Quantite : "+qte+", Prix Total :"+prixRef*qte);
+		
+		System.out.println("Vous confirmer cette article (1/0) ?");
+		int confrimerArticle = sc.nextInt();
+		
+		if(confrimerArticle == 1)
+			return prixRef * qte;
+		else {
+			
+			System.out.println("Article Annuler !");
+			supprimer.deleteArticle(idArticle);
+			supprimer.deleteCadre(idCatImpression);
+			supprimer.deleteTypeImpression(idTypeImpression);
+			
+			return 0;
+		}
 	}
+
 	public void commander(String email) {
 
 		String type;
 		int IdCommande;
 		int choix = 1;
 		float somme = 0;
+		int nbrArticle = 0;
 		UtilExecute util = new UtilExecute();
 		Inserer inserer = new Inserer();
 		Update update = new Update();
+		Supprimer supprimer= new Supprimer();
 		Scanner sc = new Scanner(System.in);
 		String continuer = "oui";
 
@@ -136,13 +166,18 @@ public class Inserer {
 		DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yy"); // date d'aujrd hui
 
 		// STEP 1 : Ajouter une commande vide
-		inserer.addCommande(IdCommande, dateFormat.format(new java.util.Date()), "Domicile", 0.0, "En attente", email,
+		boolean estAjouter = inserer.addCommande(IdCommande, dateFormat.format(new java.util.Date()), "Domicile", 0.0, "En attente", email,
 				0, 0, 0);
+		
+		if(!estAjouter)
+			return;
 
 		// STEP 2 : A.Article + A.TypeImpression + A.Impression
 		while (choix != 0) {
 			// afficher le sous-menu d'impression
 			choix = util.commandeChoix();
+			if(choix == 0)
+				return;
 			// afficher sous menu photo => selectionner une photo
 			int idPhoto = util.showPhoto(email);
 
@@ -150,26 +185,65 @@ public class Inserer {
 			if (choix > 0 && idPhoto > 0) {
 				// affihcer les reference du type de produit et selectionner une ref
 				String reference = util.showReferences(choix);
+				
 				System.out.println("**** ETAPE 4 : Entrez la quantité");
 				System.out.print("> ");
 				int qte = sc.nextInt();
-				double prixArticle = this.ajouterArticle(IdCommande, reference, qte, email, idPhoto);
-				System.out.println("Prix Total d'article : " + prixArticle);
-				somme += prixArticle;
 				
-				System.out.println("Voulez-Vous commander une Autre Impression (1/0)");
+				double prixArticle = this.ajouterArticle(IdCommande, reference, qte, email, idPhoto);
+				
+				if(prixArticle == -1) {
+					return ;
+				}
+				
+				if(prixArticle > 0) {
+					somme += prixArticle;
+					nbrArticle ++;
+				}
+				
+				System.out.println("Voulez-Vous Ajouter un Autre Article (1/0) ?");
 				choix = sc.nextInt();
 			}
 		}
+		
+		if(nbrArticle != 0 ) 
+		{
+			int idAdresse = util.showAdresses(email);
 
-		int idAdresse = util.showAdresses(email);
 
-		// STEP 3 : Modifer les infos de la commande => Mise a jour du prix
-		update.updatePrixANDAdresseCommande(IdCommande, somme, idAdresse);
-		// update.updatePrixCommande(IdCommande, somme);
-
-		System.out.println("Prix Total de la commande : " + somme);
-
+			// update.updatePrixCommande(IdCommande, somme);
+			System.out.println("Prix Total de la commande : " + somme);
+			
+			float nvPrix = util.showCodePromo(email, somme);
+			
+			if(nvPrix != -1)
+				somme = nvPrix ;
+			
+			System.out.println("Le nouveau prix de votre commande est de : " + somme);
+			System.out.println("Payez cette Commande maintenant (1/0): " + somme);
+			int choixPaye = sc.nextInt();
+			
+			if(choixPaye == 1) {
+				System.out.println("Paiement en cours ..........");
+				// STEP 3 : Modifer les infos de la commande => Mise a jour du prix
+				update.updatePrixANDAdresseCommande(IdCommande, somme, idAdresse,1);
+				inserer.addToHistorique(IdCommande, dateFormat.format(new java.util.Date()), email, somme);
+				
+				if(somme > 100) 
+				{
+					System.out.println("Suite a Votre commande qui depasse les 100 euros vous benificez d'un Code Promo");
+					System.out.println("de reduction de 10% sur votre prochain achat ");
+					// insere code promo
+					int code = util.generateID();
+					inserer.addCodeUtilisateur(code, email);	
+				}
+			}
+			else {
+				System.out.println("Paiement non effectue , Commande enregistre");
+				update.updatePrixANDAdresseCommande(IdCommande, somme, idAdresse,0);
+			}
+				
+		}
 	}
 
 	// partie admin
@@ -194,13 +268,41 @@ public class Inserer {
 		}
 	}
 
-	public void addArticle(int idArticle, int qte, double prix, int idCommande, int idImpression) {
+	public boolean addArticle(int idArticle, int qte, double prix, int idCommande, int idImpression) {
 		String requete = "INSERT INTO article  VALUES(" + idArticle + "," + qte + "," + prix + "," + idCommande + " , "
 				+ idImpression + " )";
 		if (this.connexion.insertQuery(requete)) {
 			System.out.println("Article ajoute !");
+			return true ;
 		} else {
 			System.out.println("Echec de l'ajout de l'article");
+			return false;
+		}
+	}
+	
+	
+	public boolean addCodeUtilisateur(int code ,String email ) {
+		UtilExecute util = new UtilExecute();
+		String numCode = "CACHAT"+util.generateID();
+		String requete = "INSERT INTO codeutilisateur  VALUES("+code+",'"+numCode+"', 10 , 0 ,'"+ email +"' )";
+		if (this.connexion.insertQuery(requete)) {
+			System.out.println("Code Ajoutee !");
+			return true ;
+		} else {
+			System.out.println("Echec de l'ajout du code");
+			return false;
+		}
+	}
+	
+
+	public boolean addToHistorique(int idCommande ,String date ,String email,float prix) {
+		
+		UtilExecute util = new UtilExecute();
+		String requete = "INSERT INTO historique  VALUES("+idCommande+",'"+date+"', 'Domicile' , "+prix+" , 'En cours' , '"+email+"' )";
+		if (this.connexion.insertQuery(requete)) {
+			return true ;
+		} else {
+			return false;
 		}
 	}
 

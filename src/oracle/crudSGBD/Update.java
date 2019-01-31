@@ -1,5 +1,9 @@
 package oracle.crudSGBD;
 
+import java.util.Scanner;
+
+import javafx.scene.transform.Scale;
+
 public class Update {
 
 	private Connexion connexion;
@@ -85,14 +89,39 @@ public class Update {
 		return false;
 	}
 	
-	public boolean updatePrixANDAdresseCommande(int id , double prix , int idAdresse ) {
+	public boolean updatePrixANDAdresseCommande(int id , double prix , int idAdresse ,int estPaye ) {
 		
-		String query = "UPDATE commande SET prixTotal = "+prix+", idadresseperso = "+idAdresse+" WHERE idcommande = '"+id+"'";
+		String query = "UPDATE commande SET prixTotal = "+prix+", idadresseperso = "+idAdresse+" , estPaye = "+estPaye+"  WHERE idcommande = '"+id+"'";
 		if(this.connexion.executeQuery(query))
 			return true;
 		
 		return false ;
 	}
+	
+	
+	
+	public boolean updateStatuCommande(String id) {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("En attente - En cours - PretAEnvoyer - Envoyee - Annulee");
+		String statut = sc.nextLine();
+		String query = "UPDATE commande SET statut = '"+statut+"'  WHERE idcommande = '"+id+"'";
+		if(this.connexion.executeQuery(query))
+			return true;
+		
+		return false ;
+	}
+	
+	public boolean executeProcDeleteFichier(int id) {
+		
+		String query = "{ call delfichier("+id+")}";
+		if(this.connexion.executeQuery(query))
+			return true;
+		
+		return false ;
+	}
+	
+	
+	
 	
 
 }

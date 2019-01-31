@@ -15,6 +15,8 @@ import models.commande.HistoriqueCommande;
 import models.fichiers.FichierImage;
 import models.fichiers.Photo;
 import models.inventaire.Inventaire;
+import models.typeImpression.TypeImpression;
+import models.typeImpression.TypeImpressionBis;
 import models.user.Admin;
 import models.user.Client;
 
@@ -28,6 +30,7 @@ public class Consulter {
 
 	// Client
 	// ------------------------------------------------------------------------
+
 	/**
 	 * Liste de tous les clients
 	 * 
@@ -64,7 +67,7 @@ public class Consulter {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}// Méthodes -------------------------------------------------------
+		} // Méthodes -------------------------------------------------------
 
 		return lesAdmins;
 	}
@@ -72,7 +75,8 @@ public class Consulter {
 	/**
 	 * Liste les informations d'un client
 	 * 
-	 * @param email email de l'utilisateur (email est unique)
+	 * @param email
+	 *            email de l'utilisateur (email est unique)
 	 * @return
 	 */
 	// il manque d'ajouter les adresses
@@ -129,7 +133,7 @@ public class Consulter {
 		try {
 			while (rs.next()) {
 				FichierImage fichier = new FichierImage(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
-						rs.getInt(5), rs.getString(6));
+						rs.getInt(5), rs.getString(7));
 				fichiers.add(fichier);
 			}
 		} catch (SQLException e) {
@@ -142,7 +146,8 @@ public class Consulter {
 	/**
 	 * Recupere les fichiers Images d'un client
 	 * 
-	 * @param email email (indetifiant) client
+	 * @param email
+	 *            email (indetifiant) client
 	 * @return Liste fichier Images
 	 */
 	public ArrayList<FichierImage> getClientFichierImage(String email) {
@@ -172,11 +177,12 @@ public class Consulter {
 		}
 		return fichiers;
 	}
-	
+
 	/**
 	 * Recupere les fichiers Images d'un client
 	 * 
-	 * @param email email (indetifiant) client
+	 * @param email
+	 *            email (indetifiant) client
 	 * @return Liste Photos
 	 */
 	public ArrayList<Photo> getPhotosClient(String email) {
@@ -191,25 +197,23 @@ public class Consulter {
 					Photo photo = new Photo(rs2.getInt(1), rs2.getString(2), rs2.getString(3));
 					photos.add(photo);
 				}
-				
+
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return photos;
 	}
-	
-	
+
 	/**
 	 * Afficher Tous les fichiers qui partager
 	 * 
-	 * @return liste des Fichier Image qui sont partager 
+	 * @return liste des Fichier Image qui sont partager
 	 */
-	public ArrayList<FichierImage> getSharedFichierImage()
-	{
+	public ArrayList<FichierImage> getSharedFichierImage() {
 		ArrayList<FichierImage> fichiers = new ArrayList<FichierImage>();
 		ArrayList<Photo> photos = new ArrayList<Photo>();
-		String query = "SELECT * FROM fichierImage WHERE estpartage = 1" ;
+		String query = "SELECT * FROM fichierImage WHERE estpartage = 1";
 		ResultSet rs = this.connexion.selectQuery(query);
 		ResultSet rs2;
 		try {
@@ -223,7 +227,7 @@ public class Consulter {
 					photos.add(photo);
 				}
 				fichier.setPhotos(photos);
-				// pour r�initialiser la variable
+				// pour réinitialiser la variable
 				photos = new ArrayList<Photo>();
 
 				fichiers.add(fichier);
@@ -233,7 +237,6 @@ public class Consulter {
 		}
 		return fichiers;
 	}
-	
 
 	// Commandes -------------------------------------------------------------------
 
@@ -277,7 +280,8 @@ public class Consulter {
 	/**
 	 * Recuperer toutes les commandes faites par le client lambda
 	 * 
-	 * @param email email du client
+	 * @param email
+	 *            email du client
 	 * @return liste de toutes ces commandes
 	 */
 	// a terminer
@@ -303,7 +307,7 @@ public class Consulter {
 						commande.setAdresse(new Adresse(rs2.getInt(1), rs2.getString(2)));
 					}
 				}
-				
+
 				if (idAdrPR != 0) {
 					String query2 = "SELECT * FROM adressePR WHERE idAdressePr = " + idAdrPR;
 					ResultSet rs2 = this.connexion.selectQuery(query2);
@@ -332,26 +336,30 @@ public class Consulter {
 	// a modfier probleme dans l'enumerateur
 	public ArrayList<HistoriqueCommande> getHistorique() {
 
-		ArrayList<HistoriqueCommande> historique = new ArrayList<HistoriqueCommande>();
+		ArrayList<HistoriqueCommande> historiques = new ArrayList<HistoriqueCommande>();
 
 		String query = "SELECT * FROM historique";
 		ResultSet rs = this.connexion.selectQuery(query);
 		try {
 			while (rs.next()) {
-
+				HistoriqueCommande historique = new HistoriqueCommande(rs.getInt(1), rs.getDate(2), rs.getString(3),
+						rs.getFloat(4), 1, rs.getString(6));
+				historiques.add(historique);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return historique;
+		return historiques;
 	}
 
-	// Article  ----------------------------------------------------------------------------------------
+	// Article
+	// ----------------------------------------------------------------------------------------
 
 	// a revoire apres , aPromoucun idée
 
-	// Inventaire ----------------------------------------------------------------------
+	// Inventaire
+	// ----------------------------------------------------------------------
 
 	public ArrayList<Inventaire> getAllInventaire() {
 		ArrayList<Inventaire> inventaires = new ArrayList<Inventaire>();
@@ -368,15 +376,17 @@ public class Consulter {
 		}
 		return inventaires;
 	}
-	
+
 	/**
 	 * Recuperer le prix d'une reference
-	 * @param reference Reference produit 
-	 * @return prix de reference 
+	 * 
+	 * @param reference
+	 *            Reference produit
+	 * @return prix de reference
 	 */
-	public double getReferencePrice( String reference ) {
-		double price = 0.0 ;
-		String query = "SELECT prixdevente FROM inventaire WHERE reference = '"+reference+"'";
+	public double getReferencePrice(String reference) {
+		double price = 0.0;
+		String query = "SELECT prixdevente FROM inventaire WHERE reference = '" + reference + "'";
 		ResultSet rs = this.connexion.selectQuery(query);
 		try {
 			while (rs.next()) {
@@ -385,15 +395,14 @@ public class Consulter {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		return price ;
+
+		return price;
 	}
-	
-	
-	public ArrayList<String> getReferences( String typeImpression ) {
-		
+
+	public ArrayList<String> getReferences(String typeImpression) {
+
 		ArrayList<String> references = new ArrayList<String>();
-		String query = "SELECT reference FROM inventaire where categorie ='"+typeImpression+"'";
+		String query = "SELECT reference FROM inventaire where categorie ='" + typeImpression + "'";
 		ResultSet rs = this.connexion.selectQuery(query);
 		try {
 			while (rs.next()) {
@@ -402,18 +411,18 @@ public class Consulter {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		return references;			
+
+		return references;
 	}
-	
-	// Adresse -----------------------------------------------------------------------
-	
+
+	// Adresse
+	// -----------------------------------------------------------------------
+
 	// Adresse Perso -----------------------------------------------
 
-	
 	public ArrayList<Adresse> getClientAdresses(String email) {
 		ArrayList<Adresse> adresses = new ArrayList<Adresse>();
-		String query = "SELECT * FROM AdressePerso WHERE email = '"+email+"'";
+		String query = "SELECT * FROM AdressePerso WHERE email = '" + email + "'";
 		ResultSet rs = this.connexion.selectQuery(query);
 		try {
 			while (rs.next()) {
@@ -425,10 +434,10 @@ public class Consulter {
 		}
 		return adresses;
 	}
-	
+
 	// Adresse Point de Relais ----------------------------------------
-	
-	public ArrayList<AdressePR> getAdressePointDeRelai () {
+
+	public ArrayList<AdressePR> getAdressePointDeRelai() {
 		ArrayList<AdressePR> adresses = new ArrayList<AdressePR>();
 		String query = "SELECT * FROM AdressePR ";
 		ResultSet rs = this.connexion.selectQuery(query);
@@ -442,27 +451,28 @@ public class Consulter {
 		}
 		return adresses;
 	}
-	
-	// Code Promo -----------------------------------------------------------------------
 
-	public ArrayList<CodeUtilisateur> getClientCodeUser(String email ) {
+	// Code Promo
+	// -----------------------------------------------------------------------
+
+	public ArrayList<CodeUtilisateur> getClientCodeUser(String email) {
 		ArrayList<CodeUtilisateur> codesUser = new ArrayList<CodeUtilisateur>();
-		String query = "SELECT * FROM codeUtilisateur WHERE email= '"+email+"'";
+		String query = "SELECT * FROM codeUtilisateur WHERE email= '" + email + "'";
 		ResultSet rs = this.connexion.selectQuery(query);
 		try {
 			while (rs.next()) {
-				//Client client = new Client(); a modier getClient()
-				CodeUtilisateur code = new CodeUtilisateur(getClient(email), rs.getInt(1),rs.getString(2), rs.getInt(3));
+				// Client client = new Client(); a modier getClient()
+				CodeUtilisateur code = new CodeUtilisateur(getClient(email), rs.getInt(1), rs.getString(2),
+						rs.getInt(3));
 				codesUser.add(code);
-				
+
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return codesUser;
 	}
-	
-	
+
 	public ArrayList<CodePromo> getAllCodePromo() {
 		ArrayList<CodePromo> codePromo = new ArrayList<CodePromo>();
 		String query = "SELECT * FROM CodeComm ";
@@ -471,19 +481,18 @@ public class Consulter {
 			while (rs.next()) {
 				CodePromo code = new CodePromo(rs.getInt(1), rs.getString(2), rs.getDouble(3));
 				codePromo.add(code);
-				
+
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return codePromo;
 	}
-	
-	
+
 	public ArrayList<Photo> getPopularPhoto() {
-		
+
 		ArrayList<Photo> photos = new ArrayList<Photo>();
-		String query = "SELECT idPhoto ,parametres,description FROM (SELECT idphoto FROM cadre GROUP BY idphoto having count(*) >2 ) natural join photo ";				
+		String query = "SELECT idPhoto ,parametres,description FROM (SELECT idphoto FROM cadre GROUP BY idphoto having count(*) >2 ) natural join photo ";
 		ResultSet rs = this.connexion.selectQuery(query);
 		try {
 			while (rs.next()) {
@@ -493,20 +502,25 @@ public class Consulter {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		String query2 = "SELECT idPhoto ,parametres,description FROM (SELECT idphoto FROM tirage GROUP BY idphoto having count(*) >2 ) natural join photo ";				
-		ResultSet rs2 = this.connexion.selectQuery(query);
+
+		return photos;
+	}
+
+	public ArrayList<TypeImpressionBis> getAllTypeImpression() {
+
+		ArrayList<TypeImpressionBis> tis = new ArrayList<TypeImpressionBis>();
+		String query = "SELECT * FROM typeImpression";
+		ResultSet rs = this.connexion.selectQuery(query);
 		try {
-			while (rs2.next()) {
-				Photo photo = new Photo(rs.getInt(1), rs.getString(2), rs.getString(3));
-				photos.add(photo);
+			while (rs.next()) {
+				TypeImpressionBis ti = new TypeImpressionBis(rs.getInt(1), rs.getString(2), rs.getString(3));
+				tis.add(ti);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		return photos ;
-	}
 
+		return tis;
+	}
 
 }

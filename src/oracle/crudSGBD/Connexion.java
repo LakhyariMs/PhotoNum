@@ -89,38 +89,4 @@ public class Connexion {
 		return false;
 	}
 	
-	public void commit() {
-		try {
-			connection.commit();
-			System.out.println("Commit réussi.\n");
-		} catch (SQLException e) {
-			SQLWarningsExceptions.printExceptions(e);
-		}
-	}
-	
-	public void rollback() {
-		try {
-			connection.rollback();
-			System.out.println("Rollback réussi.\n");
-		} catch (SQLException e) {
-			SQLWarningsExceptions.printExceptions(e);
-		}
-	}
-	
-	public void setAutoCommit(boolean state) {
-		try {
-			this.connection.setAutoCommit(state);
-			System.out.println("---> AutoCommit est maintenant : "+state);
-		} catch (SQLException e) {
-			SQLWarningsExceptions.printExceptions(e);
-		}
-	}
-	
-	public void setIsolationLevel(int level) {
-		try {
-			connection.setTransactionIsolation(level);
-		} catch (SQLException e) {
-			SQLWarningsExceptions.printExceptions(e);
-		}
-	}
 }

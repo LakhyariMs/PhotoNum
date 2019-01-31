@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 import models.user.Admin;
 import models.user.Client;
-import models.user.Utilisateur;
 import oracle.crudSGBD.Consulter;
 import oracle.crudSGBD.Inserer;
 import oracle.crudSGBD.Supprimer;
@@ -119,16 +118,16 @@ public class PhotoNum {
 	public void sousMenuImpression() {
 		Menu menu = new Menu();
 		menu.setTitle("*** Les Impressions ***");
-		menu.addItem(new MenuItem("GO", this, "commander"));
+		menu.addItem(new MenuItem("Procedez", this, "commander"));
 		menu.execute();
 	}
  
 	public void performAlbum() {
-		
+
 	}
 
 	public void performAgenda() {
-		
+
 	}
 
 	public void performCadre() {
@@ -268,7 +267,7 @@ public class PhotoNum {
 	public void sousMenuAdmin() {
 		Menu menu = new Menu();
 		menu.setTitle("*** Bonjour " + admin.getPrenom() + " ***");
-		menu.addItem(new MenuItem("Supprimer Un Client", this, "performSupprimerClient"));
+		menu.addItem(new MenuItem("Supprimer Un Client (desactiver son compte)", this, "performSupprimerClient"));
 		menu.addItem(new MenuItem("Supprimer Un Fichier Image", this, "performSupprimerFichierImage"));
 		menu.addItem(new MenuItem("Approvisionner les Stocks", this, "performStock"));
 		menu.addItem(new MenuItem("Mettre A Jour Une Commande", this, "performStatutCommande"));
@@ -278,9 +277,11 @@ public class PhotoNum {
 	}
 
 	public void performSupprimerClient() {
-		System.out.println("Suppression d'une Adresse ... \n");
-		PrinterUtils.print(consulter.getClientAdresses(client.getEmail()));
-		String input = this.getInfoConsole("L'adresse num�ro :");
+		System.out.println("Suppression d'un client (desactivation de compte ) ... \n");
+		PrinterUtils.print(consulter.getAllClients());
+		
+		String input = this.getInfoConsole("Entrez l'email client : ");
+		update.updateClientState(input, false);
 		boolean confirm = ConsoleUtils.requestConfirmation();
 		if (confirm)
 			System.out.println("\nSuppression faite ! ...");
@@ -290,9 +291,11 @@ public class PhotoNum {
 	}
 
 	public void performSupprimerFichierImage() {
-		System.out.println("Suppression d'une Adresse ... \n");
-		PrinterUtils.print(consulter.getClientAdresses(client.getEmail()));
-		String input = this.getInfoConsole("L'adresse num�ro :");
+		System.out.println("Suppression d'un Fichier Image ... \n");
+		PrinterUtils.print(consulter.getAllFichiersImages());
+		String input = this.getInfoConsole("Entrez ID fichierImage  :");
+		update.executeProcDeleteFichier(Integer.parseInt(input));
+
 		boolean confirm = ConsoleUtils.requestConfirmation();
 		if (confirm)
 			System.out.println("\nSuppression faite ! ...");
@@ -311,19 +314,22 @@ public class PhotoNum {
 
 	
 	public void performStatutCommande() {
-		System.out.println("Suppression d'une Adresse ... \n");
-		PrinterUtils.print(consulter.getClientAdresses(client.getEmail()));
-		String input = this.getInfoConsole("L'adresse num�ro :");
+		System.out.println(" Mettre a jour une Commande ... \n");
+		PrinterUtils.print(consulter.getAllCommande());
+		String input = this.getInfoConsole("l'id de commande :");
+		update.updateStatuCommande(input);
 		boolean confirm = ConsoleUtils.requestConfirmation();
+
 		if (confirm)
-			System.out.println("\nSuppression faite ! ...");
+			System.out.println("\nMise a jour faite ! ...");
 		else
-			System.out.println("\nSuppression annul�e !");
+			System.out.println("\nMise a jour annul�e !");
 		ConsoleUtils.pauseExecution();
 	}
 
 	public void performAfficherImpression() {
-		String input = this.getInfoConsole("L'adresse num�ro :");
+		System.out.println(" Afficher les Impressions ... \n");
+		PrinterUtils.print(consulter.getAllTypeImpression());
 		ConsoleUtils.pauseExecution();
 	}
 
