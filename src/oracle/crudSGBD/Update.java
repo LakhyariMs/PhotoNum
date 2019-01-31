@@ -47,7 +47,7 @@ public class Update {
 				+ " AND email = '" + email + "'";
 
 		if (this.connexion.executeQuery(requete)) {
-			System.out.println("Statut changé ");
+			System.out.println("Statut changï¿½ ");
 			return true;
 		}
 		System.out.println("Echec de l'approvisionnement");
@@ -84,5 +84,15 @@ public class Update {
 
 		return false;
 	}
+	
+	public boolean updatePrixANDAdresseCommande(int id , double prix , int idAdresse ) {
+		
+		String query = "UPDATE commande SET prixTotal = "+prix+", idadresseperso = "+idAdresse+" WHERE idcommande = '"+id+"'";
+		if(this.connexion.executeQuery(query))
+			return true;
+		
+		return false ;
+	}
+	
 
 }

@@ -370,8 +370,27 @@ public class Consulter {
 		return inventaires;
 	}
 	
-	// a Modifier Halima va creer l'attribut categorie 
-	// Risque : changer le nom d'attribut (actuellement : typeImpression)
+	/**
+	 * Recuperer le prix d'une reference
+	 * @param reference Reference produit 
+	 * @return prix de reference 
+	 */
+	public double getReferencePrice( String reference ) {
+		double price = 0.0 ;
+		String query = "SELECT prixdevente FROM inventaire WHERE reference = '"+reference+"'";
+		ResultSet rs = this.connexion.selectQuery(query);
+		try {
+			while (rs.next()) {
+				price = rs.getDouble(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return price ;
+	}
+	
+	
 	public ArrayList<String> getReferences( String typeImpression ) {
 		
 		ArrayList<String> references = new ArrayList<String>();
@@ -386,7 +405,6 @@ public class Consulter {
 		}
 		
 		return references;			
-		
 	}
 	
 	// Adresse -----------------------------------------------------------------------
@@ -463,6 +481,33 @@ public class Consulter {
 	}
 	
 	
+	public ArrayList<Photo> getPopularPhoto() {
+		
+		ArrayList<Photo> photos = new ArrayList<Photo>();
+		String query = "SELECT idPhoto ,parametres,description FROM (SELECT idphoto FROM cadre GROUP BY idphoto having count(*) >2 ) natural join photo ";				
+		ResultSet rs = this.connexion.selectQuery(query);
+		try {
+			while (rs.next()) {
+				Photo photo = new Photo(rs.getInt(1), rs.getString(2), rs.getString(3));
+				photos.add(photo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		String query2 = "SELECT idPhoto ,parametres,description FROM (SELECT idphoto FROM tirage GROUP BY idphoto having count(*) >2 ) natural join photo ";				
+		ResultSet rs2 = this.connexion.selectQuery(query);
+		try {
+			while (rs2.next()) {
+				Photo photo = new Photo(rs.getInt(1), rs.getString(2), rs.getString(3));
+				photos.add(photo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return photos ;
+	}
 
 
 }

@@ -87,7 +87,7 @@ public class PhotoNum {
 			nom = sc.nextLine();
 			cli.setNom(nom);
 		}
-		System.out.println("\nPrénom : ");
+		System.out.println("\nPrï¿½nom : ");
 		String prenom = "";
 		if (sc.hasNextLine()) {
 			prenom = sc.nextLine();
@@ -119,11 +119,7 @@ public class PhotoNum {
 	public void sousMenuImpression() {
 		Menu menu = new Menu();
 		menu.setTitle("*** Les Impressions ***");
-		menu.addItem(new MenuItem("Album", this, "performAlbum"));
-		menu.addItem(new MenuItem("Agenda", this, "performAgenda"));
-		menu.addItem(new MenuItem("Cadre", this, "performCadre"));
-		menu.addItem(new MenuItem("Calendrier", this, "performCalendrier"));
-		menu.addItem(new MenuItem("Tirage", this, "performTirage"));
+		menu.addItem(new MenuItem("GO", this, "commander"));
 		menu.execute();
 	}
  
@@ -148,14 +144,14 @@ public class PhotoNum {
 	}
 
 	public void commander() {
-		
+		inserer.commander(this.client.getEmail());
 	}
 
 	// SOUS MENU : FICHIERS IMAGES
 	public void sousMenuFichiersImage() {
 		Menu menu = new Menu();
 		menu.setTitle("*** Fichiers Images ***");
-		menu.addItem(new MenuItem("Consulter (Les Fichiers Partagés) ", this, "performFichiersImageConsulter"));
+		menu.addItem(new MenuItem("Consulter (Les Fichiers Partagï¿½s) ", this, "performFichiersImageConsulter"));
 		menu.addItem(new MenuItem("Modifier", this, "performFichiersImageModifier"));
 		menu.addItem(new MenuItem("Supprimer", this, "performFichiersImageSupprimer"));
 		menu.execute();
@@ -184,7 +180,7 @@ public class PhotoNum {
 			supprimer.deleteFichierImage(client.getEmail(), input);
 			System.out.println("\nSuppression faite ! ...");
 		} else
-			System.out.println("\nSuppression annulée !");
+			System.out.println("\nSuppression annulï¿½e !");
 		ConsoleUtils.pauseExecution();
 	}
 
@@ -204,7 +200,7 @@ public class PhotoNum {
 	}
 
 	public void performFichiersPhotosModifier() {
-		System.out.println("Modification ... Fonction déliberemment non réalisée\n");
+		System.out.println("Modification ... Fonction dï¿½liberemment non rï¿½alisï¿½e\n");
 		ConsoleUtils.pauseExecution();
 	}
 
@@ -216,7 +212,7 @@ public class PhotoNum {
 			supprimer.deletePhoto(Integer.parseInt(input));
 			System.out.println("\nSuppression faite ! ...");
 		} else
-			System.out.println("\nSuppression annulée !");
+			System.out.println("\nSuppression annulï¿½e !");
 		ConsoleUtils.pauseExecution();
 	}
 
@@ -231,7 +227,7 @@ public class PhotoNum {
 	public void sousMenuProfil() {
 		Menu menu = new Menu();
 		menu.setTitle("*** Mon Profil ***");
-		menu.addItem(new MenuItem("Afficher Les Détails ", this, "performAfficherDetailsProfil"));
+		menu.addItem(new MenuItem("Afficher Les Dï¿½tails ", this, "performAfficherDetailsProfil"));
 		menu.addItem(new MenuItem("Modifier", this, "performFichiersPhotosModifier"));
 		menu.addItem(new MenuItem("Ajouter Une Adresse", this, "performAjouterAdresse"));
 		menu.addItem(new MenuItem("Supprimer Une Adresse", this, "performSupprimerAdresse"));
@@ -255,13 +251,13 @@ public class PhotoNum {
 	public void performSupprimerAdresse() {
 		System.out.println("Suppression d'une Adresse ... \n");
 		PrinterUtils.print(consulter.getClientAdresses(client.getEmail()));
-		String input = this.getInfoConsole("L'adresse numéro :");
+		String input = this.getInfoConsole("L'adresse numï¿½ro :");
 		supprimer.deleteAdresse(Integer.parseInt(input));
 		boolean confirm = ConsoleUtils.requestConfirmation();
 		if (confirm)
 			System.out.println("\nSuppression faite ! ...");
 		else
-			System.out.println("\nSuppression annulée !");
+			System.out.println("\nSuppression annulï¿½e !");
 		ConsoleUtils.pauseExecution();
 	}
 
@@ -284,31 +280,31 @@ public class PhotoNum {
 	public void performSupprimerClient() {
 		System.out.println("Suppression d'une Adresse ... \n");
 		PrinterUtils.print(consulter.getClientAdresses(client.getEmail()));
-		String input = this.getInfoConsole("L'adresse numéro :");
+		String input = this.getInfoConsole("L'adresse numï¿½ro :");
 		boolean confirm = ConsoleUtils.requestConfirmation();
 		if (confirm)
 			System.out.println("\nSuppression faite ! ...");
 		else
-			System.out.println("\nSuppression annulée !");
+			System.out.println("\nSuppression annulï¿½e !");
 		ConsoleUtils.pauseExecution();
 	}
 
 	public void performSupprimerFichierImage() {
 		System.out.println("Suppression d'une Adresse ... \n");
 		PrinterUtils.print(consulter.getClientAdresses(client.getEmail()));
-		String input = this.getInfoConsole("L'adresse numéro :");
+		String input = this.getInfoConsole("L'adresse numï¿½ro :");
 		boolean confirm = ConsoleUtils.requestConfirmation();
 		if (confirm)
 			System.out.println("\nSuppression faite ! ...");
 		else
-			System.out.println("\nSuppression annulée !");
+			System.out.println("\nSuppression annulï¿½e !");
 		ConsoleUtils.pauseExecution();
 	}
 
 	public void performStock() {
 		PrinterUtils.print(consulter.getAllInventaire());
-		String input = this.getInfoConsole("La référence :");
-		String input1 = this.getInfoConsole("Nouvelle Quantité");
+		String input = this.getInfoConsole("La rï¿½fï¿½rence :");
+		String input1 = this.getInfoConsole("Nouvelle Quantitï¿½");
 		update.updateReferenceQte(input, Integer.parseInt(input1));
 		ConsoleUtils.pauseExecution();
 	}
@@ -317,17 +313,17 @@ public class PhotoNum {
 	public void performStatutCommande() {
 		System.out.println("Suppression d'une Adresse ... \n");
 		PrinterUtils.print(consulter.getClientAdresses(client.getEmail()));
-		String input = this.getInfoConsole("L'adresse numéro :");
+		String input = this.getInfoConsole("L'adresse numï¿½ro :");
 		boolean confirm = ConsoleUtils.requestConfirmation();
 		if (confirm)
 			System.out.println("\nSuppression faite ! ...");
 		else
-			System.out.println("\nSuppression annulée !");
+			System.out.println("\nSuppression annulï¿½e !");
 		ConsoleUtils.pauseExecution();
 	}
 
 	public void performAfficherImpression() {
-		String input = this.getInfoConsole("L'adresse numéro :");
+		String input = this.getInfoConsole("L'adresse numï¿½ro :");
 		ConsoleUtils.pauseExecution();
 	}
 
