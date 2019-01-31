@@ -1,7 +1,12 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
+import models.adresse.Adresse;
+import models.adresse.AdressePR;
+import models.fichiers.FichierImage;
+import models.fichiers.Photo;
 import models.user.Admin;
 import models.user.Client;
 import oracle.crudSGBD.Consulter;
@@ -82,4 +87,152 @@ public class UtilExecute {
 	    return Integer.parseInt(pass);
 	    
 	}
+	
+public int commandeChoix() {
+		
+		Scanner sc = new Scanner(System.in);
+		int choix ;
+		System.out.println("* ETAPE 1 : choisir le ....");
+		System.out.println("1... Album");
+		System.out.println("2... Agenda");
+		System.out.println("3... Cadre");
+		System.out.println("4... Calendrier");
+		System.out.println("5... Tirage");
+		System.out.println("0... Retour");
+		System.out.print("> ");
+		choix = sc.nextInt();
+
+			return choix ;
+	}
+	
+	
+	public String showReferences(int typeImpression){
+		String categorie = null;
+		ArrayList<String> references;
+		Consulter consulter = new Consulter();
+		Scanner sc = new Scanner(System.in);
+		
+		switch (typeImpression) {
+			case 1 : 
+				categorie = "album";
+			break;
+			case 2 : 
+				categorie = "agenda";
+			break;
+			case 3 : 
+				categorie = "cadre";
+			break;
+			case 4 : 
+				categorie = "calendrier";
+			break;
+			case 5 : 
+				categorie = "tirage";
+			break;
+		}
+		
+		references = consulter.getReferences(categorie);
+		int i = 1;
+		System.out.println("*** ETAPE 3 : choisir la reference .");
+		for (String string : references) {
+			
+			System.out.print(i+"."+string+"  ");
+			i++;
+		}
+		System.out.println();
+		System.out.println("-> Veuilliez choisir une Reference");
+		System.out.print("> ");
+		String ref = sc.nextLine();
+		System.out.println();
+		
+		return ref ;
+	}
+	
+	
+	public int showAdresses(String email ) {
+		ArrayList<Adresse> adressesPerso = new ArrayList<>();
+		ArrayList<AdressePR> adressesPR = new ArrayList<>();
+		Scanner sc = new Scanner(System.in);
+		int choix ;
+		Consulter consulter = new Consulter();
+		System.out.println("***** ETAPE 5 : choisir l'adresse de Livraison .");
+		System.out.println("1... Adresses Perso");
+		System.out.println("2... Adresses Point de Relais");
+		choix = sc.nextInt();
+		
+		switch (choix) {
+			case 1:
+				adressesPerso = consulter.getClientAdresses(email);
+				
+				for (Adresse adr : adressesPerso ) {
+					System.out.println(adr.toString());
+				}
+			break;
+
+			case 2:
+				adressesPR = consulter.getAdressePointDeRelai();
+				
+				for (Adresse adr : adressesPR ) {
+					System.out.println(adr.toString());
+				}
+			break;
+		}
+		
+		System.out.println("Entrez l'ID de l'adresse ");
+		System.out.print("> ");
+		int idAdresse = sc.nextInt();
+		
+		return idAdresse;
+	}
+	
+	
+	public int showPhoto(String email) {
+		ArrayList<Photo> photos = null ;
+		Scanner sc = new Scanner(System.in);
+		int choix ;
+		Consulter consulter = new Consulter(); 
+		System.out.println("** ETAPE 2 : choisir la photo .");
+		System.out.println("1... Mes Photos");
+		System.out.println("2... Photos Partagee");
+		System.out.println("3... Photos Populaire");
+		System.out.println("0... Annuler");
+		System.out.print("> ");
+		choix = sc.nextInt();
+		
+		switch (choix) {
+			
+			case 1:  // Les photos d'un client
+				photos = consulter.getPhotosClient(email);
+			break;
+			
+			case 2: // Tous les photos public
+				photos = new ArrayList<Photo>();
+				for (FichierImage fi : consulter.getSharedFichierImage()) {
+					for (Photo photo : fi.getAllPhoto()) {
+						photos.add(photo);
+					}
+				}
+			break;
+			
+			case 3: // Les photos populaires
+				photos = consulter.getPopularPhoto();
+			break;
+			
+			case 0 :
+				return 0;
+			
+		}
+		
+		
+		for (Photo photo : photos) {
+			System.out.println(photo.toString());
+		}
+		
+		System.out.println("Entrez l'ID du photo que vous souhaitez Imprimer");
+		System.out.print("> ");
+		int idPhoto = sc.nextInt();
+		
+		
+		return idPhoto;		
+	}
+
 }

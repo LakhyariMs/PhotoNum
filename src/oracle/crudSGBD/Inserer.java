@@ -2,6 +2,7 @@ package oracle.crudSGBD;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 import main.UtilExecute;
@@ -91,59 +92,84 @@ public class Inserer {
 		}
 	}
 
-	public void commander(int typeImpression, String reference, int qte, String email, int idAdr) {
+	private double ajouterArticle(int idCommande, String reference, int qte, String email, int idPhoto) {
+
+		UtilExecute util = new UtilExecute();
+		Inserer inserer = new Inserer();
+		Consulter consulter = new Consulter();
+		int idTypeImpression = util.generateID();
+		int idArticle = util.generateID();
+		int idCatImpression = util.generateID();
+		double prixRef;
+
+		// STEP 1 : Ajouter le type d'impression
+		inserer.addTypeImpression(idTypeImpression, reference, email);
+
+		// STEP 2 : Ajouter l'impression ( exemple : cadre )
+		inserer.addCadre(idCatImpression, idTypeImpression, reference, idPhoto);
+
+		// STEP 3 : Chercher le prix de la ref dans l'inventaire et calculer le prix
+		// total
+		prixRef = consulter.getReferencePrice(reference);
+
+		System.out.println("Prix d'Article : " + prixRef * qte);
+
+		// STEP 4 : Ajouter a la table Article
+
+		inserer.addArticle(idArticle, qte, prixRef * qte, idCommande, idTypeImpression);
+
+		return prixRef * qte;
+	}
+	
+	public void commander(String email) {
+
 		String type;
-		int IdArticle, IdTypeImpression, IdCadre;
 		int IdCommande;
+		int choix = 1;
+		float somme = 0;
 		UtilExecute util = new UtilExecute();
 		Inserer inserer = new Inserer();
 		Update update = new Update();
-		switch (typeImpression) {
-		case 5:
-			type = "cadre";
-			break;
-		}
+		Scanner sc = new Scanner(System.in);
+		String continuer = "oui";
+
 		IdCommande = util.generateID();
-		System.out.println(IdCommande);
-		IdArticle = util.generateID();
-		System.out.println(IdArticle);
-		IdTypeImpression = util.generateID();
-		System.out.println(IdTypeImpression);
-		IdCadre = util.generateID();
-		System.out.println(IdCadre);
-		int idPhoto = 6;
+		DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yy"); // date d'aujrd hui
 
-		DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yy");
-
+		// STEP 1 : Ajouter une commande vide
 		inserer.addCommande(IdCommande, dateFormat.format(new java.util.Date()), "Domicile", 0.0, "En attente", email,
 				0, 0, 0);
 
-		int addtypeImp = 0;
-		if (addtypeImp == 0) {
-			inserer.addTypeImpression(IdTypeImpression, reference, email);
-			addtypeImp = 1;
+		// STEP 2 : A.Article + A.TypeImpression + A.Impression
+		while (choix != 0) {
+			// afficher le sous-menu d'impression
+			choix = util.commandeChoix();
+			// afficher sous menu photo => selectionner une photo
+			int idPhoto = util.showPhoto(email);
+
+			// Si il prend un choix
+			if (choix > 0 && idPhoto > 0) {
+				// affihcer les reference du type de produit et selectionner une ref
+				String reference = util.showReferences(choix);
+				System.out.println("**** ETAPE 4 : Entrez la quantité");
+				System.out.print("> ");
+				int qte = sc.nextInt();
+				double prixArticle = this.ajouterArticle(IdCommande, reference, qte, email, idPhoto);
+				System.out.println("Prix Total d'article : " + prixArticle);
+				somme += prixArticle;
+				
+				System.out.println("Voulez-Vous commander une Autre Impression (1/0)");
+				choix = sc.nextInt();
+			}
 		}
 
-		try {
-			TimeUnit.SECONDS.sleep(5);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		int idAdresse = util.showAdresses(email);
 
-		if (addtypeImp == 1)
-			inserer.addCadre(IdCadre, IdTypeImpression, reference, idPhoto);
+		// STEP 3 : Modifer les infos de la commande => Mise a jour du prix
+		update.updatePrixANDAdresseCommande(IdCommande, somme, idAdresse);
+		// update.updatePrixCommande(IdCommande, somme);
 
-		// on cherche le prix de l'inventaire
-		inserer.addArticle(IdArticle, qte, 1000, IdCommande, IdTypeImpression);
-
-		update.updatePrixCommande(IdCommande, 1000);
-
-		// genere ID article et commande typeImpression
-		// creer type impresion vide et sauv l id
-		// cadre besoin id photo
-		// crerrer article => recupere le prix et calculer le prx totale
-		// update commande pour finir
+		System.out.println("Prix Total de la commande : " + somme);
 
 	}
 

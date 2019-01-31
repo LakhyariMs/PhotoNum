@@ -28,7 +28,6 @@ public class Consulter {
 
 	// Client
 	// ------------------------------------------------------------------------
-
 	/**
 	 * Liste de tous les clients
 	 * 
@@ -224,7 +223,7 @@ public class Consulter {
 					photos.add(photo);
 				}
 				fichier.setPhotos(photos);
-				// pour rÃ©initialiser la variable
+				// pour réinitialiser la variable
 				photos = new ArrayList<Photo>();
 
 				fichiers.add(fichier);
@@ -370,6 +369,26 @@ public class Consulter {
 		return inventaires;
 	}
 	
+	/**
+	 * Recuperer le prix d'une reference
+	 * @param reference Reference produit 
+	 * @return prix de reference 
+	 */
+	public double getReferencePrice( String reference ) {
+		double price = 0.0 ;
+		String query = "SELECT prixdevente FROM inventaire WHERE reference = '"+reference+"'";
+		ResultSet rs = this.connexion.selectQuery(query);
+		try {
+			while (rs.next()) {
+				price = rs.getDouble(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return price ;
+	}
+	
 	// a Modifier Halima va creer l'attribut categorie 
 	// Risque : changer le nom d'attribut (actuellement : typeImpression)
 	public ArrayList<String> getReferences( String typeImpression ) {
@@ -462,7 +481,33 @@ public class Consulter {
 		return codePromo;
 	}
 	
-	
+public ArrayList<Photo> getPopularPhoto() {
+		
+		ArrayList<Photo> photos = new ArrayList<Photo>();
+		String query = "SELECT idPhoto ,parametres,description FROM (SELECT idphoto FROM cadre GROUP BY idphoto having count(*) >2 ) natural join photo ";				
+		ResultSet rs = this.connexion.selectQuery(query);
+		try {
+			while (rs.next()) {
+				Photo photo = new Photo(rs.getInt(1), rs.getString(2), rs.getString(3));
+				photos.add(photo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		String query2 = "SELECT idPhoto ,parametres,description FROM (SELECT idphoto FROM tirage GROUP BY idphoto having count(*) >2 ) natural join photo ";				
+		ResultSet rs2 = this.connexion.selectQuery(query);
+		try {
+			while (rs2.next()) {
+				Photo photo = new Photo(rs.getInt(1), rs.getString(2), rs.getString(3));
+				photos.add(photo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return photos ;
+	}
 
 
 }

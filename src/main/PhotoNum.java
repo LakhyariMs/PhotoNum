@@ -119,20 +119,16 @@ public class PhotoNum {
 	public void sousMenuImpression() {
 		Menu menu = new Menu();
 		menu.setTitle("*** Les Impressions ***");
-		menu.addItem(new MenuItem("Album", this, "performAlbum"));
-		menu.addItem(new MenuItem("Agenda", this, "performAgenda"));
-		menu.addItem(new MenuItem("Cadre", this, "performCadre"));
-		menu.addItem(new MenuItem("Calendrier", this, "performCalendrier"));
-		menu.addItem(new MenuItem("Tirage", this, "performTirage"));
+		menu.addItem(new MenuItem("GO", this, "commander"));
 		menu.execute();
 	}
  
 	public void performAlbum() {
-
+		
 	}
 
 	public void performAgenda() {
-
+		
 	}
 
 	public void performCadre() {
@@ -148,7 +144,7 @@ public class PhotoNum {
 	}
 
 	public void commander() {
-		
+		inserer.commander(this.client.getEmail());
 	}
 
 	// SOUS MENU : FICHIERS IMAGES
@@ -326,7 +322,7 @@ public class PhotoNum {
 		ConsoleUtils.pauseExecution();
 	}
 
-	public void performAfficherImpression() {
+	public void performRealiserImpression() {
 		String input = this.getInfoConsole("L'adresse numéro :");
 		ConsoleUtils.pauseExecution();
 	}

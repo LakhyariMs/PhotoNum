@@ -84,5 +84,14 @@ public class Update {
 
 		return false;
 	}
+	
+	public boolean updatePrixANDAdresseCommande(int id , double prix , int idAdresse ) {
+		
+		String query = "UPDATE commande SET prixTotal = "+prix+", idadresseperso = "+idAdresse+" WHERE idcommande = '"+id+"'";
+		if(this.connexion.executeQuery(query))
+			return true;
+		
+		return false ;
+	}
 
 }
