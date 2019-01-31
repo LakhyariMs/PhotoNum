@@ -223,7 +223,7 @@ public class Consulter {
 					photos.add(photo);
 				}
 				fichier.setPhotos(photos);
-				// pour réinitialiser la variable
+				// pour rï¿½initialiser la variable
 				photos = new ArrayList<Photo>();
 
 				fichiers.add(fichier);
@@ -389,8 +389,7 @@ public class Consulter {
 		return price ;
 	}
 	
-	// a Modifier Halima va creer l'attribut categorie 
-	// Risque : changer le nom d'attribut (actuellement : typeImpression)
+	
 	public ArrayList<String> getReferences( String typeImpression ) {
 		
 		ArrayList<String> references = new ArrayList<String>();
@@ -405,7 +404,6 @@ public class Consulter {
 		}
 		
 		return references;			
-		
 	}
 	
 	// Adresse -----------------------------------------------------------------------
@@ -481,7 +479,8 @@ public class Consulter {
 		return codePromo;
 	}
 	
-public ArrayList<Photo> getPopularPhoto() {
+	
+	public ArrayList<Photo> getPopularPhoto() {
 		
 		ArrayList<Photo> photos = new ArrayList<Photo>();
 		String query = "SELECT idPhoto ,parametres,description FROM (SELECT idphoto FROM cadre GROUP BY idphoto having count(*) >2 ) natural join photo ";				

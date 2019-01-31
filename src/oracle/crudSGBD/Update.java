@@ -47,7 +47,7 @@ public class Update {
 				+ " AND email = '" + email + "'";
 
 		if (this.connexion.executeQuery(requete)) {
-			System.out.println("Statut changé ");
+			System.out.println("Statut changï¿½ ");
 			return true;
 		}
 		System.out.println("Echec de l'approvisionnement");
@@ -93,5 +93,6 @@ public class Update {
 		
 		return false ;
 	}
+	
 
 }

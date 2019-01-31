@@ -120,7 +120,6 @@ public class Inserer {
 
 		return prixRef * qte;
 	}
-	
 	public void commander(String email) {
 
 		String type;
@@ -186,17 +185,18 @@ public class Inserer {
 	}
 
 	public void addInventaire(String reference, int quantite, int prix) {
-		String requete = "INSERT INTO Inventaire(reference, quantite, prix) " + "VALUES('" + reference + "', " + quantite
-				+ ", " + prix + ")";
+		String requete = "INSERT INTO Inventaire(reference, quantite, prix) " + "VALUES('" + reference + "', "
+				+ quantite + ", " + prix + ")";
 		if (this.connexion.insertQuery(requete)) {
 			System.out.println("Article ajouté !");
 		} else {
 			System.out.println("Echec de l'ajout de l'article");
 		}
 	}
-	
-	public void addArticle(int idArticle , int qte , double prix , int idCommande , int idImpression ) {
-		String requete = "INSERT INTO article  VALUES("+idArticle+","+qte+","+prix+","+idCommande+" , "+idImpression+" )";
+
+	public void addArticle(int idArticle, int qte, double prix, int idCommande, int idImpression) {
+		String requete = "INSERT INTO article  VALUES(" + idArticle + "," + qte + "," + prix + "," + idCommande + " , "
+				+ idImpression + " )";
 		if (this.connexion.insertQuery(requete)) {
 			System.out.println("Article ajoute !");
 		} else {

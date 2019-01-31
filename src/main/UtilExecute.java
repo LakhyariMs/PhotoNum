@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import models.adresse.Adresse;
 import models.adresse.AdressePR;
+import models.adresse.AdressePerso;
 import models.fichiers.FichierImage;
 import models.fichiers.Photo;
 import models.user.Admin;
@@ -36,7 +37,7 @@ public class UtilExecute {
 			}	
 		}
 		
-		System.out.println("Compte client erroné !");
+		System.out.println("Compte client erronï¿½ !");
 		return null;
 	}
 	
@@ -55,7 +56,7 @@ public class UtilExecute {
 				return admin ;
 			}	
 		}
-		System.out.println("Compte admin erroné !");
+		System.out.println("Compte admin erronï¿½ !");
 		return null;
 	}
 	
@@ -81,14 +82,17 @@ public class UtilExecute {
 	    for(int x=0;x<5;x++)   { // j'ai pris par defaut la longeur du code promo = 10
 	       int i = (int)Math.floor(Math.random() * chars.length()); // Si tu supprimes des lettres tu diminues ce nb
 	       pass += chars.charAt(i);
-	    }
-	    System.out.println(pass);
-	    
+	    }	    
 	    return Integer.parseInt(pass);
 	    
 	}
+<<<<<<< HEAD
 	
 public int commandeChoix() {
+=======
+
+	public int commandeChoix() {
+>>>>>>> b2971367f945112e27e01336222caa88b51e4929
 		
 		Scanner sc = new Scanner(System.in);
 		int choix ;
@@ -234,5 +238,9 @@ public int commandeChoix() {
 		
 		return idPhoto;		
 	}
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> b2971367f945112e27e01336222caa88b51e4929
 }
